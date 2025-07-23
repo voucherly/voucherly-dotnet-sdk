@@ -8,8 +8,9 @@ namespace Voucherly.Sdk.Models
 {
     public enum CheckoutAction
     {
+        DIRECT,
         OTP,
         REDIRECT,
-        DROPIN
+        DROPIN,
     }
 }
