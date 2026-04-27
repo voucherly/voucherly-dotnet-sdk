@@ -1,5 +1,6 @@
 ﻿using Voucherly.Sdk.Models.Payments;
 using System.Text.Json.Serialization;
+using FastIDs.TypeId;
 
 namespace Voucherly.Sdk.Requests
 {
@@ -8,16 +9,21 @@ namespace Voucherly.Sdk.Requests
         public class PaymentLine
         {
             public int Quantity { get; set; }
-            public int? PriceId { get; set; }
             public long UnitAmount { get; set; }
             public long UnitDiscountAmount { get; set; }
             public long DiscountAmount { get; set; }
+            public TypeId? ProductId { get; set; }
+            public PaymentLineProduct? Product { get; set; }
+        }
+
+        public class PaymentLineProduct
+        {
+            public string? ExternalId { get; set; }
+            public string? Name { get; set; }
+            public string? Variant { get; set; }
+            public string? Image { get; set; }
             public double? TaxRate { get; set; }
-            public int? ProductId { get; set; }
-            public string ProductName { get; set; } = string.Empty;
-            public string ProductDescription { get; set; } = string.Empty;
-            public string ProductImage { get; set; } = string.Empty;
-            public bool IsFood { get; set; }
+            public bool? IsFood { get; set; }
         }
 
         public class PaymentDiscount

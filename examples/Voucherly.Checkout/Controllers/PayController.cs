@@ -30,11 +30,14 @@ public class PayController : Controller
             {
                 new()
                 {
-                    IsFood = true,
-                    ProductImage = "https://ucarecdn.com/76a940de-f611-479d-9fc4-bd348dc27f53/-/preview/200x200/",
                     Quantity = 1,
-                    ProductName = "Fresh bowl",
                     UnitAmount = 790,
+                    Product = new CreatePaymentRequest.PaymentLineProduct()
+                    {
+                        Name = "Fresh bowl",
+                        Image = "https://ucarecdn.com/76a940de-f611-479d-9fc4-bd348dc27f53/-/preview/200x200/",
+                        IsFood = true,
+                    }
                 }
 
             },

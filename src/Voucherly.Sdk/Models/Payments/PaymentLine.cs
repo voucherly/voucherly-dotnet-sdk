@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastIDs.TypeId;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
@@ -11,28 +12,17 @@ namespace Voucherly.Sdk.Models.Payments
     public class PaymentLine
     {
         public int Quantity { get; set; }
+        public double? TaxRate { get; set; }
         public long UnitAmount { get; set; }
         public long UnitDiscountAmount { get; set; }
-        /// <summary>
-        /// cumulative discount for line. can be used if UnitDiscountAmount is zero
-        /// </summary>
-        public long DiscountAmount { get; set; }
-        /// <summary>
-        /// UnitAmount * Quantity
-        /// </summary>
-        public long TotalAmount { get; set; }
-        /// <summary>
-        /// UnitDiscountAmount * Quantity
-        /// </summary>
-        public long TotalDiscountAmount { get; set; }
-        /// <summary>
-        /// TotalAmount - TotalDiscountAmount - DiscountAmount
-        /// </summary>
         public long FinalAmount { get; set; }
-        public double? TaxRate { get; set; }
+        public TypeId? ProductId { get; set; }
         public string ProductName { get; set; } = string.Empty;
-        public string ProductDescription { get; set; } = string.Empty;
-        public string ProductImage { get; set; } = string.Empty;
+        public string? ProductVariant { get; set; }
+        public string? ProductImage { get; set; }
+        public string? ExternalId1 { get; set; }
+        public string? ExternalId2 { get; set; }
         public bool IsFood { get; set; }
+        public bool IsGift { get; set; }
     }
 }

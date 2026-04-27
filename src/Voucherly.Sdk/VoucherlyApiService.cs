@@ -1,4 +1,5 @@
-﻿using fbognini.Sdk;
+﻿using FastIDs.TypeId.Serialization.SystemTextJson;
+using fbognini.Sdk;
 using fbognini.Sdk.Models;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
@@ -16,13 +17,14 @@ namespace Voucherly.Sdk
 {
     public interface IVoucherlyApiService
     {
-
-        static JsonSerializerOptions JsonSerializerOptions => new()
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            Converters = { new JsonStringEnumConverter() },
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
+        static JsonSerializerOptions JsonSerializerOptions => 
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Converters = { new JsonStringEnumConverter() },
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            }
+            .ConfigureForTypeId();
 
         #region Payments
         Task<Payment> CreatePayment(CreatePaymentRequest request);
