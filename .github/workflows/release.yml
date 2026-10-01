@@ -1,0 +1,86 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    name: Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tag, package version and CHANGELOG.md agree
+        id: version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          package=$(sed -nE 's|.*<Version>([^<]+)</Version>.*|\1|p' src/Voucherly.Sdk/Voucherly.Sdk.csproj)
+          if [ "$version" != "$package" ]; then
+            echo "::error::The tag $GITHUB_REF_NAME does not match the <Version> $package of Voucherly.Sdk.csproj."
+            exit 1
+          fi
+          if ! grep -qE "^## ${version//./\\.}( |$)" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no section for $version."
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: version
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    name: NuGet
+    needs: [version, test]
+    runs-on: ubuntu-latest
+    environment: nuget
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Pack
+        run: dotnet pack src/Voucherly.Sdk/Voucherly.Sdk.csproj --configuration Release -p:Version=${{ needs.version.outputs.version }} -p:ContinuousIntegrationBuild=true --output nuget
+
+      # Trusted publishing: nuget.org trades the OIDC token of this job for a key that lasts one hour, so it is asked for right before the push.
+      - name: NuGet login
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push "nuget/*.nupkg" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
+
+  # Created after the push, so that a release on GitHub always means a package on NuGet.
+  release:
+    name: GitHub release
+    needs: [version, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Notes from CHANGELOG.md
+        run: awk -v v="${{ needs.version.outputs.version }}" '$0 == "## " v || index($0, "## " v " ") == 1 { on = 1; next } /^## / { on = 0 } on' CHANGELOG.md > notes.md
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
