@@ -1,36 +1,36 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body{
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Cart-Container{
-   width: 70%;
-   height: 85%;
-   background-color: #ffffff;
-   border-radius: 20px;
-   box-shadow: 0px 25px 40px #1687d933;
+     width: 70%;
+     height: 85%;
+     background-color: #ffffff;
+     border-radius: 20px;
+     box-shadow: 0px 25px 40px #1687d933;
  }
