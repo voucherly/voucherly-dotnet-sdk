@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /examples/Voucherly.Checkout/appsettings.Development.json
+
+# The coverage map of the spec, not a coverage report.
+!spec/coverage.json

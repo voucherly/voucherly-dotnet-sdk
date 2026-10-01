@@ -1,0 +1,23 @@
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{js,ts,css,scss,cshtml,html}]
+indent_style = space
+indent_size = 4
+quote_type = double
+
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+# A verbatim copy of the published spec: its diff must show only what the docs changed.
+[spec/openapi.yaml]
+trim_trailing_whitespace = false
+insert_final_newline = unset

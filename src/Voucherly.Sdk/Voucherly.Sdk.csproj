@@ -1,14 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+		<LangVersion>14</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
 	</PropertyGroup>
-	
+
 	<PropertyGroup>
-		<Description>The official Voucherly .NET library, supporting .NET 6.0+.</Description>
-		<Version>1.5.0</Version>
+		<Description>The official Voucherly .NET library, for .NET 8 and .NET 10.</Description>
+		<Version>2.0.0</Version>
 		<Authors>Voucherly, Francesco Bognini</Authors>
 		<Company>Voucherly</Company>
 		<PackageTags>voucherly;payment;credit;cards;money;gateway;buoni pasto</PackageTags>
@@ -20,15 +23,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FastIDs.TypeId" Version="1.2.1" />
-		<PackageReference Include="FastIDs.TypeId.Serialization.SystemTextJson" Version="1.1.1" />
-		<PackageReference Include="fbognini.Sdk" Version="3.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+	</ItemGroup>
 
-		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+	<ItemGroup>
+		<InternalsVisibleTo Include="Voucherly.Sdk.Tests" />
 	</ItemGroup>
 
 	<ItemGroup>

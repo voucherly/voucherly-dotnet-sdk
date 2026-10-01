@@ -1,59 +1,49 @@
-using fbognini.Sdk.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Voucherly.Sdk;
+using Voucherly.Sdk.Enums;
+using Voucherly.Sdk.Exceptions;
 using Voucherly.Sdk.Requests;
 
 namespace Voucherly.Checkout.Controllers;
 
-public class PayController : Controller
+public class PayController(IVoucherlyClient voucherly) : Controller
 {
-    private readonly ILogger<PayController> _logger;
-    private readonly IVoucherlyApiService _voucherlyApiService;
-
-    public PayController(ILogger<PayController> logger, IVoucherlyApiService VoucherlyApiService)
-    {
-        _logger = logger;
-        _voucherlyApiService = VoucherlyApiService;
-    }
-
     [HttpPost]
-    public async Task<ActionResult> Init()
+    public async Task<ActionResult> Init(CancellationToken cancellationToken)
     {
-
         var request = new CreatePaymentRequest
         {
+            Mode = PaymentMode.Payment,
             ReferenceId = Guid.NewGuid().ToString(),
             CustomerFirstName = "Mario",
-            CustomerLastName = "Red",
-            CustomerEmail = "mario.red@gmail.com",
-            Lines = new List<CreatePaymentRequest.PaymentLine>()
-            {
-                new()
+            CustomerLastName = "Rossi",
+            CustomerEmail = "mario.rossi@example.com",
+            Lines =
+            [
+                new PaymentLineRequest
                 {
                     Quantity = 1,
                     UnitAmount = 790,
-                    Product = new CreatePaymentRequest.PaymentLineProduct()
+                    Product = new PaymentLineRequestProduct
                     {
                         Name = "Fresh bowl",
                         Image = "https://ucarecdn.com/76a940de-f611-479d-9fc4-bd348dc27f53/-/preview/200x200/",
-                        IsFood = true,
-                    }
-                }
-
-            },
-            Mode = Sdk.Models.Payments.PaymentMode.Payment,
+                        LineType = LineType.Food,
+                    },
+                },
+            ],
             RedirectOkUrl = Url.Action("Success", "Pay", null, HttpContext.Request.Scheme)!,
             RedirectKoUrl = Url.Action("Error", "Pay", null, HttpContext.Request.Scheme)!,
         };
 
         try
         {
-            var payment = await _voucherlyApiService.CreatePayment(request);
-            return new RedirectResult(payment.CheckoutUrl!);
+            var payment = await voucherly.Payments.CreateAsync(request, cancellationToken);
+            return Redirect(payment.CheckoutUrl!);
         }
-        catch (ApiException ex)
+        catch (ApiException exception)
         {
-            return BadRequest(ex.Content);
+            return BadRequest(exception.RawBody);
         }
     }
 
@@ -62,7 +52,7 @@ public class PayController : Controller
         return View();
     }
 
-	public IActionResult Error()
+    public IActionResult Error()
     {
         return View();
     }
