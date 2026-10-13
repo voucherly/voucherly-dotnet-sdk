@@ -1,3 +1,5 @@
+using Voucherly.Sdk.Enums;
+
 namespace Voucherly.Sdk.Requests;
 
 public class RefundPaymentRequestTransaction : VoucherlyObject
@@ -13,7 +15,8 @@ public class RefundPaymentRequestTransaction : VoucherlyObject
     public int? Amount { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// Indicates whether the refunded amount should be added to the customer's wallet as credit.
+    /// How this transaction is given back, when the request sets no <c>refundMode</c> of its own. Defaults to <c>Gateway</c>; <c>NoRefund</c> fails with <c>VALIDATION_ERROR</c>.
     /// </summary>
-    public bool? AsCredit { get; set { field = value; MarkAssigned(); } }
+    /// <remarks>One of the <see cref="RefundMode"/> values.</remarks>
+    public string? RefundMode { get; set { field = value; MarkAssigned(); } }
 }
