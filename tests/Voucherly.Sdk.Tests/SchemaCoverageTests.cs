@@ -26,6 +26,14 @@ public class SchemaCoverageTests : ServiceTestBase
         ["CreatePaymentRequest.completionMode"] = "CompletionMode",
         ["CreatePaymentRequest.exceedingAmountMode"] = "ExceedingAmountMode",
         ["Stores.StoreStatus.status"] = "StoreStatusValue",
+        ["Customers.Origin.type"] = "CustomerOriginType",
+        ["CreateCustomerRequest.origin"] = "CustomerOriginRequest",
+        ["Customers.Consent.purpose"] = "ConsentPurpose",
+        ["Customers.ConsentRequest.purpose"] = "ConsentPurpose",
+        ["Customers.Consent.channel"] = "ConsentChannel",
+        ["Customers.ConsentRequest.channel"] = "ConsentChannel",
+        ["Customers.ConsentRequest.source"] = "ConsentSource",
+        ["Payments.PaymentDiscount.level"] = "DiscountLevel",
     };
 
     private static readonly Dictionary<string, string> IncludeEnums = new()

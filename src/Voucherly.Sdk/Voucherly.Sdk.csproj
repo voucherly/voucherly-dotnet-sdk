@@ -11,7 +11,7 @@
 
 	<PropertyGroup>
 		<Description>The official Voucherly .NET library, for .NET 8 and .NET 10.</Description>
-		<Version>2.0.0</Version>
+		<Version>2.1.0</Version>
 		<Authors>Voucherly, Francesco Bognini</Authors>
 		<Company>Voucherly</Company>
 		<PackageTags>voucherly;payment;credit;cards;money;gateway;buoni pasto</PackageTags>

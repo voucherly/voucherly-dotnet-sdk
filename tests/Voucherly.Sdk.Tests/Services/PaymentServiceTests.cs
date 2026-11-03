@@ -37,6 +37,18 @@ public class PaymentServiceTests : ServiceTestBase
     }
 
     [Fact]
+    public async Task Quote()
+    {
+        var json = RespondWithSample("quote-payment");
+        var body = SpecExamples.RequestExamples("create-payment")["Company from your system"];
+
+        var quote = await Client.Payments.QuoteAsync(Deserialize<CreatePaymentRequest>(body));
+
+        AssertOperation("quote-payment", body: body);
+        AssertReadsEveryMember(json, quote);
+    }
+
+    [Fact]
     public async Task RetrieveWaitsWithTheWaitTimeHeader()
     {
         var json = RespondWithSample("retrieve-payment");

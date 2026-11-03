@@ -109,12 +109,35 @@ public static partial class SpecExamples
     /// <summary>
     /// A value for the schema: its example when it has one, otherwise a value of its type, with every property of an object.
     /// </summary>
-    public static JsonNode? Sample(JsonNode schemaNode)
+    public static JsonNode? Sample(JsonNode schemaNode) => Sample(schemaNode, []);
+
+    // A schema can hold itself, as a modifier holds its options: the second visit of a schema on the same path is left empty.
+    private static JsonNode? Sample(JsonNode schemaNode, HashSet<string> visiting)
     {
-        var schema = Resolve(schemaNode).AsObject();
+        var reference = schemaNode is JsonObject node ? node["$ref"]?.GetValue<string>() : null;
+        if (reference is not null && !visiting.Add(reference))
+        {
+            return null;
+        }
+
+        try
+        {
+            return SampleOf(Resolve(schemaNode).AsObject(), visiting);
+        }
+        finally
+        {
+            if (reference is not null)
+            {
+                visiting.Remove(reference);
+            }
+        }
+    }
+
+    private static JsonNode? SampleOf(JsonObject schema, HashSet<string> visiting)
+    {
         if (schema["allOf"] is JsonArray allOf)
         {
-            return Sample(allOf[0]!);
+            return Sample(allOf[0]!, visiting);
         }
         if (schema["enum"] is JsonArray values)
         {
@@ -128,7 +151,7 @@ public static partial class SpecExamples
         switch (schema["type"]?.GetValue<string>() ?? "object")
         {
             case "array":
-                return new JsonArray(Sample(schema["items"]!));
+                return Sample(schema["items"]!, visiting) is { } item ? new JsonArray(item) : new JsonArray();
             case "integer":
                 return JsonValue.Create(1);
             case "number":
@@ -147,13 +170,13 @@ public static partial class SpecExamples
             default:
                 if (schema["properties"] is not JsonObject properties)
                 {
-                    return new JsonObject { ["key"] = schema["additionalProperties"] is JsonObject additional ? Sample(additional) : JsonValue.Create("value") };
+                    return new JsonObject { ["key"] = schema["additionalProperties"] is JsonObject additional ? Sample(additional, visiting) : JsonValue.Create("value") };
                 }
 
                 var sample = new JsonObject();
                 foreach (var (name, property) in properties)
                 {
-                    sample[name] = Sample(property!);
+                    sample[name] = Sample(property!, visiting);
                 }
 
                 return sample;

@@ -34,6 +34,9 @@ public class ConfirmPaymentRequest : VoucherlyObject
     /// </summary>
     public int? FoodAmount { get; set { field = value; MarkAssigned(); } }
 
+    /// <summary>
+    /// How money already captured is given back when the confirmed amounts are lower than what was captured. Only with <c>lines</c>, or with <c>finalAmount</c> and <c>foodAmount</c>. Defaults to <c>NoRefund</c>.
+    /// </summary>
     /// <remarks>One of the <see cref="RefundMode"/> values.</remarks>
     public string? RefundMode { get; set { field = value; MarkAssigned(); } }
 }

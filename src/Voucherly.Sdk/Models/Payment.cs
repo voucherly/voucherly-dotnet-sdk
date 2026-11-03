@@ -100,7 +100,12 @@ public class Payment : VoucherlyObject
     public int TotalAmount { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The total amount of discounts applied to the payment, in cents. This is the sum of all discount amounts.
+    /// The sum of the lines after their own discounts, in cents. The discounts of <c>level</c> <c>Subtotal</c> come off it.
+    /// </summary>
+    public int SubtotalAmount { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
+    /// Every discount of the payment, in cents, on the lines and on the subtotal.
     /// </summary>
     public int DiscountAmount { get; set { field = value; MarkAssigned(); } }
 

@@ -90,7 +90,7 @@ sealed class Generator(JsonObject spec)
     };
 
     // Schemas that are not classes of their own: Id is a string, Metadata a map, the problem details are read by the exceptions.
-    private static readonly string[] Skip = ["Id", "Metadata", "ProblemDetails", "ValidationProblemDetails", "PaymentConflictProblemDetails", "PaginationResponse"];
+    private static readonly string[] Skip = ["Id", "Metadata", "ProblemDetails", "ValidationProblemDetails", "PaymentConflictProblemDetails", "CustomerConflictProblemDetails", "CompanyConflictProblemDetails", "PaginationResponse"];
 
     private static readonly Dictionary<string, string> Handwritten = new()
     {
@@ -105,6 +105,14 @@ sealed class Generator(JsonObject spec)
         ["CreatePaymentRequest.completionMode"] = "CompletionMode",
         ["CreatePaymentRequest.exceedingAmountMode"] = "ExceedingAmountMode",
         ["Stores.StoreStatus.status"] = "StoreStatusValue",
+        ["Customers.Origin.type"] = "CustomerOriginType",
+        ["CreateCustomerRequest.origin"] = "CustomerOriginRequest",
+        ["Customers.Consent.purpose"] = "ConsentPurpose",
+        ["Customers.ConsentRequest.purpose"] = "ConsentPurpose",
+        ["Customers.Consent.channel"] = "ConsentChannel",
+        ["Customers.ConsentRequest.channel"] = "ConsentChannel",
+        ["Customers.ConsentRequest.source"] = "ConsentSource",
+        ["Payments.PaymentDiscount.level"] = "DiscountLevel",
     };
 
     private static readonly Dictionary<string, string> IncludeEnums = new()

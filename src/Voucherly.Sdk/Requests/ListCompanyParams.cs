@@ -3,6 +3,11 @@ namespace Voucherly.Sdk.Requests;
 public sealed class ListCompanyParams : RequestParams
 {
     /// <summary>
+    /// The ID of the Company in your own system, as set in <c>referenceId</c>.
+    /// </summary>
+    public string? ReferenceId { get; set; }
+
+    /// <summary>
     /// A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
     /// </summary>
     public int? Length { get; set; }

@@ -23,6 +23,16 @@ public interface ICompanyService
     /// <param name="parameters">The query parameters.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     Task<Company> RetrieveAsync(string idOrCode, RetrieveCompanyParams? parameters = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Update a Company.
+    /// Updates the specified company by setting the values of the parameters passed.
+    /// Any parameters not provided will be left unchanged.
+    /// </summary>
+    /// <param name="idOrCode">The unique identifier (ID) or join code of the Company to update.</param>
+    /// <param name="request">The fields to change.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    Task<Company> UpdateAsync(string idOrCode, UpdateCompanyRequest request, CancellationToken cancellationToken = default);
 }
 
 internal sealed class CompanyService(ApiRequestor requestor) : ServiceBase(requestor), ICompanyService
@@ -38,4 +48,10 @@ internal sealed class CompanyService(ApiRequestor requestor) : ServiceBase(reque
 
     public Task<Company> RetrieveAsync(string idOrCode, RetrieveCompanyParams? parameters = null, CancellationToken cancellationToken = default) =>
         Requestor.SendAsync<Company>(HttpMethod.Get, Path("/v1/companys/{0}", idOrCode), null, parameters, cancellationToken);
+
+    public Task<Company> UpdateAsync(string idOrCode, UpdateCompanyRequest request, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        return Requestor.SendAsync<Company>(HttpMethod.Post, Path("/v1/companys/{0}", idOrCode), request, null, cancellationToken);
+    }
 }

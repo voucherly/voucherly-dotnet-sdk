@@ -44,4 +44,9 @@ public class CustomerAddress : VoucherlyObject
     /// The country code of the address (e.g., "IT" for Italy).
     /// </summary>
     public string? Country { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
+    /// Flat, intercom and notes for the rider left on the last delivery to this address, at most 300 characters.
+    /// </summary>
+    public string? AdditionalInformation { get; set { field = value; MarkAssigned(); } }
 }

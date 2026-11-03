@@ -50,4 +50,35 @@ public class CompanyServiceTests : ServiceTestBase
         AssertOperation("retrieve-company", new Dictionary<string, string> { ["idOrCode"] = "ACME01" }, "include=Addresses");
         AssertReadsEveryMember(json, company);
     }
+
+    [Fact]
+    public async Task CreateWithAReference()
+    {
+        RespondWithSample("create-company");
+
+        await Client.Companies.CreateAsync(new CreateCompanyRequest { Name = "Acme S.p.A.", ReferenceId = "company-318" });
+
+        AssertOperation("create-company", body: new System.Text.Json.Nodes.JsonObject { ["name"] = "Acme S.p.A.", ["referenceId"] = "company-318" });
+    }
+
+    [Fact]
+    public async Task ListByReference()
+    {
+        RespondWithSample("list-company");
+
+        await Client.Companies.ListAsync(new ListCompanyParams { ReferenceId = "company-318" });
+
+        AssertOperation("list-company", query: "referenceId=company-318");
+    }
+
+    [Fact]
+    public async Task UpdateSendsOnlyTheAssignedFieldsAndAnExplicitNull()
+    {
+        var json = RespondWithSample("update-company");
+
+        var company = await Client.Companies.UpdateAsync("ACME01", new UpdateCompanyRequest { Name = "Acme S.r.l.", ReferenceId = null });
+
+        AssertOperation("update-company", new Dictionary<string, string> { ["idOrCode"] = "ACME01" }, body: System.Text.Json.Nodes.JsonNode.Parse("""{"name":"Acme S.r.l.","referenceId":null}"""));
+        AssertReadsEveryMember(json, company);
+    }
 }

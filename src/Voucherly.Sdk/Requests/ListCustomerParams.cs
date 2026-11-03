@@ -8,6 +8,11 @@ public sealed class ListCustomerParams : RequestParams
     public string? Email { get; set; }
 
     /// <summary>
+    /// The ID of the Customer in your own system, as set in <c>referenceId</c>.
+    /// </summary>
+    public string? ReferenceId { get; set; }
+
+    /// <summary>
     /// A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
     /// </summary>
     public int? Length { get; set; }

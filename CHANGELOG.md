@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.1.0 - 2026-11-03
+
+- `Payments.QuoteAsync` prices the body of a Payment without creating it, and returns a `PaymentQuote`.
+- `Companies.UpdateAsync` updates a Company by ID or join code, with `UpdateCompanyRequest`: only the fields you assign are sent, and an explicit `null` removes the `ReferenceId`.
+- `ReferenceId` on `Company`, `CreateCompanyRequest` and `ListCompanyParams`, and on `CreateCustomerRequest`, `UpdateCustomerRequest` and `ListCustomerParams`: the ID in your own system.
+- `CreatePaymentRequest.Customer`, a `CreatePaymentRequestCustomer` with `ReferenceId`, `Email`, `FirstName`, `LastName`, `PhoneNumber`, `EmailVerified` and `PhoneVerified`. It replaces `CustomerEmail`, `CustomerFirstName`, `CustomerLastName` and `CustomerPhoneNumber`, which are now `[Obsolete]`.
+- `CreatePaymentRequest.Company`, a `CreatePaymentRequestCompany` with `ReferenceId`, `Name` and `JoinCode`: the Payment finds the Company by its reference or creates it, and its Customer joins it.
+- On the Customer: `Language`, `BirthDate`, `Consents`, `Origin` and `Registered`; on the requests that create and update it, `Language`, `BirthDate` and `Consents`, plus `Origin` and `RegisteredAt` on creation.
+- `Payment.SubtotalAmount`, `PaymentLine.SubtotalDiscountAmount`, options of an option on `PaymentLineModifier.Modifiers`, and `CustomerAddress.AdditionalInformation`.
+- The meal-voucher amounts and counts, confirmed and refunded, on the revenues reports.
+- `LineOrigin.LiveOffer`.
+- `Store.ReservationIsActive`, reservations used at all, and `Store.ReservationOnlineIsActive`, reservations open on the site, in place of `EcommerceReservationIsActive`, also on `StoreRequest`.
+- A discount has `Level`, `Line` or `Subtotal` from `DiscountLevel`, its `Amount` in cents and `ExternalCouponCode`, in place of `Type`, `Value`, `Index` and `DiscountType`. The discounts of `CreatePaymentRequest` are `PaymentDiscountRequest`.
+- `RefundMode` on `RefundPaymentRequest` and `RefundPaymentRequestTransaction`, in place of `AsCredit`: `RefundMode.Credit` credits the customer's wallet.
+
 ## 2.0.0 - 2026-10-01
 
 Rewritten from the OpenAPI spec of the Voucherly API, as published on 2026-10-01. The upgrade from 1.x is described in [UPGRADE-2.0.md](https://github.com/voucherly/voucherly-dotnet-sdk/blob/main/UPGRADE-2.0.md).

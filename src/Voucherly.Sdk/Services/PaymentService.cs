@@ -12,6 +12,12 @@ public interface IPaymentService
     Task<Payment> CreateAsync(CreatePaymentRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Quote a Payment.
+    /// Prices the body of a Payment without creating it.
+    /// </summary>
+    Task<PaymentQuote> QuoteAsync(CreatePaymentRequest request, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Retrieve a Payment.
     /// </summary>
     Task<Payment> RetrieveAsync(string id, RetrievePaymentParams? parameters = null, CancellationToken cancellationToken = default);
@@ -56,6 +62,12 @@ internal sealed class PaymentService(ApiRequestor requestor) : ServiceBase(reque
     {
         ArgumentNullException.ThrowIfNull(request);
         return Requestor.SendAsync<Payment>(HttpMethod.Post, "/v1/payments", request, null, cancellationToken);
+    }
+
+    public Task<PaymentQuote> QuoteAsync(CreatePaymentRequest request, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        return Requestor.SendAsync<PaymentQuote>(HttpMethod.Post, "/v1/payments/quote", request, null, cancellationToken);
     }
 
     public Task<Payment> RetrieveAsync(string id, RetrievePaymentParams? parameters = null, CancellationToken cancellationToken = default) =>

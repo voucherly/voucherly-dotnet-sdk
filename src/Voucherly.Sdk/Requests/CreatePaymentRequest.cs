@@ -1,5 +1,4 @@
 using Voucherly.Sdk.Enums;
-using Voucherly.Sdk.Models;
 
 namespace Voucherly.Sdk.Requests;
 
@@ -22,34 +21,42 @@ public class CreatePaymentRequest : VoucherlyObject
     public string? Mode { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The ID of the Company this Payment is associated with. If empty, the Company associated with the Customer will be used, if one exists.
-    /// You cannot specify both <c>customerId</c> and <c>companyId</c> at the same time.
+    /// The ID of the Company of the Customer of this Payment. If empty, the Company associated with the Customer will be used, if one exists.
+    /// The Customer joins this Company and stays in it, moving from another Company if it was in one. You cannot specify both <c>company</c> and <c>companyId</c>.
     /// </summary>
     public string? CompanyId { get; set { field = value; MarkAssigned(); } }
 
+    public CreatePaymentRequestCompany? Company { get; set { field = value; MarkAssigned(); } }
+
     /// <summary>
-    /// The ID of the Customer of this Payment. If empty a new Customer will be created.
+    /// The ID of an existing Customer of this Payment. See <c>customer</c> for how it combines with <c>customer.referenceId</c>.
     /// </summary>
     public string? CustomerId { get; set { field = value; MarkAssigned(); } }
 
+    public CreatePaymentRequestCustomer? Customer { get; set { field = value; MarkAssigned(); } }
+
     /// <summary>
-    /// The email address of the customer associated with this Payment. Required when <c>customerId</c> is not provided.
+    /// The email address of the customer associated with this Payment. Send <c>customer.email</c> instead.
     /// </summary>
+    [Obsolete("The email address of the customer associated with this Payment. Send customer.email instead.")]
     public string? CustomerEmail { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The first name of the customer associated with this Payment.
+    /// The first name of the customer associated with this Payment. Send <c>customer.firstName</c> instead.
     /// </summary>
+    [Obsolete("The first name of the customer associated with this Payment. Send customer.firstName instead.")]
     public string? CustomerFirstName { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The last name of the customer associated with this Payment.
+    /// The last name of the customer associated with this Payment. Send <c>customer.lastName</c> instead.
     /// </summary>
+    [Obsolete("The last name of the customer associated with this Payment. Send customer.lastName instead.")]
     public string? CustomerLastName { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The phone number of the customer associated with this Payment.
+    /// The phone number of the customer associated with this Payment. Send <c>customer.phoneNumber</c> instead.
     /// </summary>
+    [Obsolete("The phone number of the customer associated with this Payment. Send customer.phoneNumber instead.")]
     public string? CustomerPhoneNumber { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
@@ -75,9 +82,9 @@ public class CreatePaymentRequest : VoucherlyObject
     public List<PaymentLineRequest>? Lines { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// An array of PaymentDiscount objects representing all discounts applied to this Payment.
+    /// The discounts of this Payment. A discount either states its own <c>amount</c>, taken off the subtotal, or carries only a <c>couponCode</c> that Voucherly prices. Not allowed with <c>mode</c> <c>Wallet</c> or <c>Setup</c>, nor on a Payment without lines.
     /// </summary>
-    public List<PaymentDiscount>? Discounts { get; set { field = value; MarkAssigned(); } }
+    public List<PaymentDiscountRequest>? Discounts { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// Seconds the customer has to complete the checkout, after which the Payment is voided. Without it the checkout has no deadline of its own, and a Payment still <c>Requested</c> 12 hours after its creation is voided.
