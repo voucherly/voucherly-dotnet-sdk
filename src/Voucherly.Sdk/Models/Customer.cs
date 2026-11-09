@@ -23,13 +23,6 @@ public class Customer : VoucherlyObject
     public DateTimeOffset Created { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The date and time the Customer registered on your website, in UTC, as you declared it with <c>registeredAt</c>. Null for the Customers not created through this API.
-    /// </summary>
-    public DateTimeOffset? Registered { get; set { field = value; MarkAssigned(); } }
-
-    public Origin? Origin { get; set { field = value; MarkAssigned(); } }
-
-    /// <summary>
     /// The customer’s email address.
     /// </summary>
     public string? Email { get; set { field = value; MarkAssigned(); } }
@@ -58,11 +51,6 @@ public class Customer : VoucherlyObject
     /// The language the Customer is written to in, as an ISO 639-1 two-letter code.
     /// </summary>
     public string? Language { get; set { field = value; MarkAssigned(); } }
-
-    /// <summary>
-    /// The Customer's date of birth, as <c>yyyy-MM-dd</c>.
-    /// </summary>
-    public DateOnly? BirthDate { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// The ID of the Company this Customer is associated with.

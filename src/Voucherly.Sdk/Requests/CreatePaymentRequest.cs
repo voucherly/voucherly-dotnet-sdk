@@ -1,4 +1,5 @@
 using Voucherly.Sdk.Enums;
+using Voucherly.Sdk.Models;
 
 namespace Voucherly.Sdk.Requests;
 
@@ -21,12 +22,10 @@ public class CreatePaymentRequest : VoucherlyObject
     public string? Mode { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The ID of the Company of the Customer of this Payment. If empty, the Company associated with the Customer will be used, if one exists.
-    /// The Customer joins this Company and stays in it, moving from another Company if it was in one. You cannot specify both <c>company</c> and <c>companyId</c>.
+    /// The ID of the Company this Payment is associated with. If empty, the Company associated with the Customer will be used, if one exists.
+    /// You cannot specify both <c>customerId</c> and <c>companyId</c> at the same time.
     /// </summary>
     public string? CompanyId { get; set { field = value; MarkAssigned(); } }
-
-    public CreatePaymentRequestCompany? Company { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// The ID of an existing Customer of this Payment. See <c>customer</c> for how it combines with <c>customer.referenceId</c>.
@@ -82,9 +81,9 @@ public class CreatePaymentRequest : VoucherlyObject
     public List<PaymentLineRequest>? Lines { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The discounts of this Payment. A discount either states its own <c>amount</c>, taken off the subtotal, or carries only a <c>couponCode</c> that Voucherly prices. Not allowed with <c>mode</c> <c>Wallet</c> or <c>Setup</c>, nor on a Payment without lines.
+    /// An array of PaymentDiscount objects representing all discounts applied to this Payment.
     /// </summary>
-    public List<PaymentDiscountRequest>? Discounts { get; set { field = value; MarkAssigned(); } }
+    public List<PaymentDiscount>? Discounts { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// Seconds the customer has to complete the checkout, after which the Payment is voided. Without it the checkout has no deadline of its own, and a Payment still <c>Requested</c> 12 hours after its creation is voided.

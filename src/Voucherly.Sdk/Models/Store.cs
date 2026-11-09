@@ -80,14 +80,9 @@ public class Store : VoucherlyObject
     public bool EcommercePickupIsActive { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// Whether the Store uses reservations, both from the site and entered by the staff.
+    /// Whether the Store accepts e-commerce reservations.
     /// </summary>
-    public bool ReservationIsActive { get; set { field = value; MarkAssigned(); } }
-
-    /// <summary>
-    /// Whether the Store can be booked online, appearing in the Prenota section of the site.
-    /// </summary>
-    public bool ReservationOnlineIsActive { get; set { field = value; MarkAssigned(); } }
+    public bool EcommerceReservationIsActive { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// The current health of the Store POS connection. Returned only when <c>status</c> is requested through the <c>include</c> parameter, and only for active Stores that have <c>pos</c> configured.

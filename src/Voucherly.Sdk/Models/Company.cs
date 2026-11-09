@@ -23,11 +23,6 @@ public class Company : VoucherlyObject
     public string? JoinCode { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The ID of the Company in your own system. Unique among your Companies, so a Payment can find the Company by it.
-    /// </summary>
-    public string? ReferenceId { get; set { field = value; MarkAssigned(); } }
-
-    /// <summary>
     /// Company name.
     /// </summary>
     public string? Name { get; set { field = value; MarkAssigned(); } }

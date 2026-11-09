@@ -36,11 +36,6 @@ public class UpdateCustomerRequest : VoucherlyObject
     public string? Language { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The Customer's date of birth, as <c>yyyy-MM-dd</c>. It can't be in the future or before 1900-01-01. Pass <c>null</c> to clear it.
-    /// </summary>
-    public DateOnly? BirthDate { get; set { field = value; MarkAssigned(); } }
-
-    /// <summary>
     /// The ID of the Company this Customer is associated with. Pass <c>null</c> to detach the Customer from its Company.
     /// </summary>
     public string? CompanyId { get; set { field = value; MarkAssigned(); } }

@@ -14,9 +14,4 @@ public class CreateCompanyRequest : VoucherlyObject
     /// Company name.
     /// </summary>
     public string Name { get; set { field = value; MarkAssigned(); } } = null!;
-
-    /// <summary>
-    /// The ID of the Company in your own system. Another Company with the same reference answers 409.
-    /// </summary>
-    public string? ReferenceId { get; set { field = value; MarkAssigned(); } }
 }
