@@ -25,7 +25,7 @@ public class ConsentRequest : VoucherlyObject
     public bool Granted { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// When the Customer made the choice. It cannot be in the future. A choice older than the current one for the same purpose and channel is ignored.
+    /// When the Customer made the choice. It cannot be in the future. A choice older than the current one for the same purpose and channel is ignored. A consent collected more than 24 hours ago is recorded but starts no Marketing automation.
     /// </summary>
     public DateTimeOffset CollectedAt { get; set { field = value; MarkAssigned(); } }
 

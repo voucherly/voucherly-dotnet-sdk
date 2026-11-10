@@ -15,22 +15,15 @@ public class PaymentDiscount : VoucherlyObject
     public string? DiscountDescription { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// A non-negative integer in cents representing how much to subtract from the total. Must be specified when both <c>type</c> and <c>value</c> are null.
+    /// <c>Line</c> when the discount is already in the <c>discountAmount</c> of the lines it applies to, <c>Subtotal</c> when it comes off the sum of the lines and leaves them as they are.
+    /// </summary>
+    /// <remarks>One of the <see cref="DiscountLevel"/> values.</remarks>
+    public string? Level { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
+    /// In cents, what the discount is worth. A discount of <c>level</c> <c>Subtotal</c> comes off the sum of the lines; one of <c>level</c> <c>Line</c> is already in their <c>discountAmount</c> and is not taken off again.
     /// </summary>
     public int Amount { get; set { field = value; MarkAssigned(); } }
-
-    /// <remarks>One of the <see cref="DiscountType"/> values.</remarks>
-    public string? Type { get; set { field = value; MarkAssigned(); } }
-
-    /// <summary>
-    /// The value of the discount, contextual to the selected <c>type</c>. Must be specified when <c>type</c> is provided and <c>amount</c> is null.
-    /// </summary>
-    public int? Value { get; set { field = value; MarkAssigned(); } }
-
-    /// <summary>
-    /// Defines the application order of this discount relative to others.
-    /// </summary>
-    public int? Index { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// Primary external reference for the discount, used by Voucherly to reconcile it across systems and to correctly compute reporting.
@@ -43,9 +36,14 @@ public class PaymentDiscount : VoucherlyObject
     public string? ExternalId2 { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// The coupon code the payer entered to obtain this discount.
+    /// The code of the Voucherly coupon that produced this discount, as passed in the <c>couponCode</c> of a discount of the request.
     /// </summary>
     public string? CouponCode { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
+    /// The code of a promotion priced by the merchant's POS, such as one the customer entered at the table. Voucherly passes it back to the POS and does not validate it.
+    /// </summary>
+    public string? ExternalCouponCode { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// The loyalty points spent to obtain this discount.

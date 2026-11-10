@@ -24,9 +24,14 @@ public class PaymentLine : VoucherlyObject
     public int UnitDiscountAmount { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
-    /// A non-negative integer in cents representing the total discount applied to the entire line.
+    /// A non-negative integer in cents representing the total discount applied to the entire line, the discounts of <c>level</c> <c>Line</c> included.
     /// </summary>
     public int DiscountAmount { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
+    /// In cents, the share of the discounts of <c>level</c> <c>Subtotal</c> that falls on this line. <c>finalAmount</c> does not include it, and <c>finalAmount - subtotalDiscountAmount</c> is what the line was paid.
+    /// </summary>
+    public int SubtotalDiscountAmount { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// <c>unitAmount</c> times <c>quantity</c>, in cents. Compute it from those two instead.

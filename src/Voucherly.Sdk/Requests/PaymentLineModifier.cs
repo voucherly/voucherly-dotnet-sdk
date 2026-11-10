@@ -19,4 +19,9 @@ public class PaymentLineModifier : VoucherlyObject
     /// The quantity of this modifier.
     /// </summary>
     public int Quantity { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
+    /// Only on a dish chosen in a bundle group, the options picked from the dish's own groups, such as its size. Each one is charged at its own price on top of the bundle, and takes no options of its own.
+    /// </summary>
+    public List<PaymentLineModifier>? Modifiers { get; set { field = value; MarkAssigned(); } }
 }

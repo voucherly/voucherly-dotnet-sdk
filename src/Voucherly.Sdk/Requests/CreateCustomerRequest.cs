@@ -1,3 +1,5 @@
+using Voucherly.Sdk.Enums;
+
 namespace Voucherly.Sdk.Requests;
 
 /// <summary>
@@ -36,6 +38,11 @@ public class CreateCustomerRequest : VoucherlyObject
     public string? Language { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
+    /// The Customer's date of birth, as <c>yyyy-MM-dd</c>. It can't be in the future or before 1900-01-01.
+    /// </summary>
+    public DateOnly? BirthDate { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
     /// The ID of the Company this Customer is associated with.
     /// </summary>
     public string? CompanyId { get; set { field = value; MarkAssigned(); } }
@@ -46,6 +53,17 @@ public class CreateCustomerRequest : VoucherlyObject
     /// The choices the Customer made about marketing and profiling, as you collected them. Each one is kept in the consent register with its date, text and version.
     /// </summary>
     public List<ConsentRequest>? Consents { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
+    /// When the Customer registered on your website, if it was not now. Send it when you synchronize existing customers. A registration older than 24 hours starts no Marketing automation. It can't be in the future. Defaults to now.
+    /// </summary>
+    public DateTimeOffset? RegisteredAt { get; set { field = value; MarkAssigned(); } }
+
+    /// <summary>
+    /// Where you won the Customer. Voucherly records the other points of acquisition, such as the table or a Payment link, itself, and refuses them here with code <c>ORIGIN_NOT_DECLARABLE</c>. Defaults to <c>Api</c>.
+    /// </summary>
+    /// <remarks>One of the <see cref="CustomerOriginRequest"/> values.</remarks>
+    public string? Origin { get; set { field = value; MarkAssigned(); } }
 
     /// <summary>
     /// Optional settings for customer creation.
